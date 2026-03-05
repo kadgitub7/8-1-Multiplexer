@@ -194,9 +194,7 @@ Key components:
 - One OR gate to combine the eight product terms.
 - An additional AND gate with input **E** to gate the overall output (or equivalently, **E** can be ANDed into each product term).
 
-**Placeholder for circuit diagram image:**
-
-![8:1 Multiplexer Circuit](path/to/8-1MUXCircuit.png)
+![8:1 Multiplexer Circuit](imageAssets/8-1MUXCircuit.png)
 
 ---
 
@@ -220,9 +218,7 @@ Typical simulation scenarios include:
 
 The waveform confirms that the simulated output matches the truth table and Boolean equation.
 
-**Placeholder for waveform image:**
-
-![8:1 Multiplexer Waveform](path/to/8-1MUXWaveform.png)
+![8:1 Multiplexer Waveform](imageAssets/8-1MUXWaveform.png)
 
 ---
 
