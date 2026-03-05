@@ -27,7 +27,7 @@ In general:
 
 - **n** = number of data inputs  
 - **m** = number of select lines  
-- They are related by: n = 2^m
+- They are related by: \( n = 2^m \)
 
 Examples:
 
@@ -38,8 +38,8 @@ Examples:
 This project focuses on an **8:1 multiplexer with an enable input**:
 
 - **Inputs**
-  - **I0**, **I1**, **I2**, **I3**, **I4**, **I5**, **I6**, **I7** — data inputs  
-  - **S2**, **S1**, **S0** — select lines (3 bits total)  
+  - **I<sub>0</sub>**, **I<sub>1</sub>**, **I<sub>2</sub>**, **I<sub>3</sub>**, **I<sub>4</sub>**, **I<sub>5</sub>**, **I<sub>6</sub>**, **I<sub>7</sub>** — data inputs  
+  - **S<sub>2</sub>**, **S<sub>1</sub>**, **S<sub>0</sub>** — select lines (3 bits total)  
   - **E** — enable input (1 bit)
 - **Output**
   - **Y** — selected data output
@@ -48,14 +48,14 @@ This project focuses on an **8:1 multiplexer with an enable input**:
 
 - When **E = 0**, the MUX is **disabled** and the output is forced to 0.
 - When **E = 1**, the MUX is **enabled** and the output **Y** equals one of the eight inputs according to the select lines:
-  - S2 S1 S0 = 000 → Y = I0  
-  - S2 S1 S0 = 001 → Y = I1  
-  - S2 S1 S0 = 010 → Y = I2  
-  - S2 S1 S0 = 011 → Y = I3  
-  - S2 S1 S0 = 100 → Y = I4  
-  - S2 S1 S0 = 101 → Y = I5  
-  - S2 S1 S0 = 110 → Y = I6  
-  - S2 S1 S0 = 111 → Y = I7  
+  - S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> = 000 → Y = I<sub>0</sub>  
+  - S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> = 001 → Y = I<sub>1</sub>  
+  - S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> = 010 → Y = I<sub>2</sub>  
+  - S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> = 011 → Y = I<sub>3</sub>  
+  - S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> = 100 → Y = I<sub>4</sub>  
+  - S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> = 101 → Y = I<sub>5</sub>  
+  - S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> = 110 → Y = I<sub>6</sub>  
+  - S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> = 111 → Y = I<sub>7</sub>  
 
 **Advantages of multiplexers:**
 
@@ -72,27 +72,27 @@ This project focuses on an **8:1 multiplexer with an enable input**:
 
 The core behavior of an 8:1 MUX with enable can be summarized as:
 
-- **Selector variables:** S2, S1, S0 (3 bits)
+- **Selector variables:** S<sub>2</sub>, S<sub>1</sub>, S<sub>0</sub> (3 bits)
 - **Enable:** E
-- **Inputs:** I0 … I7
+- **Inputs:** I<sub>0</sub> … I<sub>7</sub>
 - **Output:** Y
 
-Ignoring the enable for a moment (E = 1), the **selection behavior** is:
+- Ignoring the enable for a moment (E = 1), the **selection behavior** is:
 
-| S2 | S1 | S0 | Y   |
-|----|----|----|-----|
-| 0  | 0  | 0  | I0  |
-| 0  | 0  | 1  | I1  |
-| 0  | 1  | 0  | I2  |
-| 0  | 1  | 1  | I3  |
-| 1  | 0  | 0  | I4  |
-| 1  | 0  | 1  | I5  |
-| 1  | 1  | 0  | I6  |
-| 1  | 1  | 1  | I7  |
+| S<sub>2</sub> | S<sub>1</sub> | S<sub>0</sub> | Y              |
+|---------------|---------------|---------------|----------------|
+| 0             | 0             | 0             | I<sub>0</sub>  |
+| 0             | 0             | 1             | I<sub>1</sub>  |
+| 0             | 1             | 0             | I<sub>2</sub>  |
+| 0             | 1             | 1             | I<sub>3</sub>  |
+| 1             | 0             | 0             | I<sub>4</sub>  |
+| 1             | 0             | 1             | I<sub>5</sub>  |
+| 1             | 1             | 0             | I<sub>6</sub>  |
+| 1             | 1             | 1             | I<sub>7</sub>  |
 
 Including the enable input:
 
-- When **E = 0**, **Y = 0** regardless of S2, S1, S0, or any Ik.
+- When **E = 0**, **Y = 0** regardless of S<sub>2</sub>, S<sub>1</sub>, S<sub>0</sub>, or any **I<sub>k</sub>**.
 - When **E = 1**, **Y** follows the selection table above.
 
 This is the behavior confirmed by the waveform and testbench simulation.
@@ -101,37 +101,35 @@ This is the behavior confirmed by the waveform and testbench simulation.
 
 ## Boolean Equation and Logic Simplification
 
-From the truth table, for **E = 1**, the **Boolean expression** for Y in terms of S2, S1, S0, and I0…I7 is:
+From the truth table, for **E = 1**, the **Boolean expression** for **Y** in terms of **S<sub>2</sub>**, **S<sub>1</sub>**, **S<sub>0</sub>**, and **I<sub>0</sub> … I<sub>7</sub>** is:
 
-Y = S2' S1' S0' I0  
-  + S2' S1' S0 I1  
-  + S2' S1 S0' I2  
-  + S2' S1 S0 I3  
-  + S2 S1' S0' I4  
-  + S2 S1' S0 I5  
-  + S2 S1 S0' I6  
-  + S2 S1 S0 I7
+**Y = S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub>′ I<sub>0</sub>  
+  + S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub> I<sub>1</sub>  
+  + S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub>′ I<sub>2</sub>  
+  + S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub> I<sub>3</sub>  
+  + S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub>′ I<sub>4</sub>  
+  + S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub> I<sub>5</sub>  
+  + S<sub>2</sub> S<sub>1</sub> S<sub>0</sub>′ I<sub>6</sub>  
+  + S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> I<sub>7</sub>**
 
 Incorporating the enable input **E**:
 
-Y = E (  
-    S2' S1' S0' I0  
-  + S2' S1' S0 I1  
-  + S2' S1 S0' I2  
-  + S2' S1 S0 I3  
-  + S2 S1' S0' I4  
-  + S2 S1' S0 I5  
-  + S2 S1 S0' I6  
-  + S2 S1 S0 I7  
-)
+**Y = E ( S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub>′ I<sub>0</sub>  
+  + S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub> I<sub>1</sub>  
+  + S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub>′ I<sub>2</sub>  
+  + S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub> I<sub>3</sub>  
+  + S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub>′ I<sub>4</sub>  
+  + S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub> I<sub>5</sub>  
+  + S<sub>2</sub> S<sub>1</sub> S<sub>0</sub>′ I<sub>6</sub>  
+  + S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> I<sub>7</sub> )**
 
 Where:
 
-- **Adjacency (e.g., S2S1)** denotes **AND**.
+- **Adjacency (e.g., S<sub>2</sub>S<sub>1</sub>)** denotes **AND**.
 - **“+”** denotes **OR**.
-- The prime symbol **(')** denotes the logical complement (NOT), e.g. **S2'** is the complement of S2.
+- The prime symbol **(′)** denotes the logical complement (NOT), e.g. **S<sub>2</sub>′** is the complement of S<sub>2</sub>.
 
-Each product term corresponds to one row of the truth table and becomes active for a unique combination of S2, S1, and S0. The factor **E** ensures that the output propagates only when the MUX is enabled.
+Each product term corresponds to one row of the truth table and becomes active for a unique combination of S<sub>2</sub>, S<sub>1</sub>, and S<sub>0</sub>. The factor **E** ensures that the output propagates only when the MUX is enabled.
 
 ---
 
@@ -142,15 +140,15 @@ The **8:1 MUX with enable** is a standard building block in digital circuits, of
 ### Conceptual Block Diagram
 
 - **Inputs**
-  - I0, I1, I2, I3, I4, I5, I6, I7 — data inputs
-  - S2, S1, S0 — select inputs
+  - I<sub>0</sub>, I<sub>1</sub>, I<sub>2</sub>, I<sub>3</sub>, I<sub>4</sub>, I<sub>5</sub>, I<sub>6</sub>, I<sub>7</sub> — data inputs
+  - S<sub>2</sub>, S<sub>1</sub>, S<sub>0</sub> — select inputs
   - E — enable
 - **Output**
   - Y — single data output
 
 The internal circuit corresponds directly to the Boolean equation:
 
-Y = E ( S2' S1' S0' I0 + S2' S1' S0 I1 + S2' S1 S0' I2 + S2' S1 S0 I3 + S2 S1' S0' I4 + S2 S1' S0 I5 + S2 S1 S0' I6 + S2 S1 S0 I7 )
+**Y = E ( S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub>′ I<sub>0</sub> + S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub> I<sub>1</sub> + S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub>′ I<sub>2</sub> + S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub> I<sub>3</sub> + S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub>′ I<sub>4</sub> + S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub> I<sub>5</sub> + S<sub>2</sub> S<sub>1</sub> S<sub>0</sub>′ I<sub>6</sub> + S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> I<sub>7</sub> )**
 
 ### Implementation Notes
 
@@ -179,20 +177,20 @@ This architecture synthesizes efficiently into FPGA LUTs or standard-cell logic.
 
 The **gate-level** circuit for the 8:1 MUX with enable can be constructed directly from the Boolean equation:
 
-Y = E ( S2' S1' S0' I0 + S2' S1' S0 I1 + S2' S1 S0' I2 + S2' S1 S0 I3 + S2 S1' S0' I4 + S2 S1' S0 I5 + S2 S1 S0' I6 + S2 S1 S0 I7 )
+**Y = E ( S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub>′ I<sub>0</sub> + S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub> I<sub>1</sub> + S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub>′ I<sub>2</sub> + S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub> I<sub>3</sub> + S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub>′ I<sub>4</sub> + S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub> I<sub>5</sub> + S<sub>2</sub> S<sub>1</sub> S<sub>0</sub>′ I<sub>6</sub> + S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> I<sub>7</sub> )**
 
 Key components:
 
-- Three inverters to generate **S2'**, **S1'**, and **S0'**.
+- Three inverters to generate **S<sub>2</sub>′**, **S<sub>1</sub>′**, and **S<sub>0</sub>′**.
 - Eight AND gates, one for each data path:
-  - S2' S1' S0' I0  
-  - S2' S1' S0 I1  
-  - S2' S1 S0' I2  
-  - S2' S1 S0 I3  
-  - S2 S1' S0' I4  
-  - S2 S1' S0 I5  
-  - S2 S1 S0' I6  
-  - S2 S1 S0 I7  
+  - S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub>′ I<sub>0</sub>  
+  - S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub> I<sub>1</sub>  
+  - S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub>′ I<sub>2</sub>  
+  - S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub> I<sub>3</sub>  
+  - S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub>′ I<sub>4</sub>  
+  - S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub> I<sub>5</sub>  
+  - S<sub>2</sub> S<sub>1</sub> S<sub>0</sub>′ I<sub>6</sub>  
+  - S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> I<sub>7</sub>  
 - One OR gate to combine the eight product terms.
 - An additional AND gate with input **E** to gate the overall output (or equivalently, **E** can be ANDed into each product term).
 
@@ -208,17 +206,17 @@ The **behavioral simulation waveform** illustrates:
 
 - Inputs over time:
   - E (enable)
-  - S2, S1, S0 (select lines)
-  - I0 … I7
+  - S<sub>2</sub>, S<sub>1</sub>, S<sub>0</sub> (select lines)
+  - I<sub>0</sub> … I<sub>7</sub>
 - The resulting output:
   - Y
 
 Typical simulation scenarios include:
 
 - Setting a pattern on the data inputs, for example:  
-  - I0 = 0, I1 = 1, I2 = 0, I3 = 1, I4 = 0, I5 = 1, I6 = 0, I7 = 1, E = 1  
-  - Then sweeping S2 S1 S0 from 000 to 111 to demonstrate that Y always equals the selected input.
-- Verifying that when **E = 0**, Y remains 0 for all combinations of S2, S1, and S0.
+  - I<sub>0</sub> = 0, I<sub>1</sub> = 1, I<sub>2</sub> = 0, I<sub>3</sub> = 1, I<sub>4</sub> = 0, I<sub>5</sub> = 1, I<sub>6</sub> = 0, I<sub>7</sub> = 1, E = 1  
+  - Then sweeping S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> from 000 to 111 to demonstrate that Y always equals the selected input.
+- Verifying that when **E = 0**, Y remains 0 for all combinations of S<sub>2</sub>, S<sub>1</sub>, and S<sub>0</sub>.
 
 The waveform confirms that the simulated output matches the truth table and Boolean equation.
 
@@ -249,12 +247,12 @@ E=0 S=111 Y=0
 
 These results demonstrate that:
 
-- When **E = 1**, **Y** correctly equals I0…I7 depending on the 3-bit select value S2 S1 S0.
+- When **E = 1**, **Y** correctly equals I<sub>0</sub> … I<sub>7</sub> depending on the 3-bit select value S<sub>2</sub> S<sub>1</sub> S<sub>0</sub>.
 - When **E = 0**, the output is always **0**, regardless of the select lines and input values.
 
 Overall, the simulation confirms the general rule:
 
-Y = E ( S2' S1' S0' I0 + S2' S1' S0 I1 + S2' S1 S0' I2 + S2' S1 S0 I3 + S2 S1' S0' I4 + S2 S1' S0 I5 + S2 S1 S0' I6 + S2 S1 S0 I7 )
+**Y = E ( S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub>′ I<sub>0</sub> + S<sub>2</sub>′ S<sub>1</sub>′ S<sub>0</sub> I<sub>1</sub> + S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub>′ I<sub>2</sub> + S<sub>2</sub>′ S<sub>1</sub> S<sub>0</sub> I<sub>3</sub> + S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub>′ I<sub>4</sub> + S<sub>2</sub> S<sub>1</sub>′ S<sub>0</sub> I<sub>5</sub> + S<sub>2</sub> S<sub>1</sub> S<sub>0</sub>′ I<sub>6</sub> + S<sub>2</sub> S<sub>1</sub> S<sub>0</sub> I<sub>7</sub> )**
 
 ---
 
