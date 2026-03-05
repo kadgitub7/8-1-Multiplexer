@@ -195,8 +195,8 @@ Key components:
 - An additional AND gate with input **E** to gate the overall output (or equivalently, **E** can be ANDed into each product term).
 
 ![8:1 Multiplexer Circuit](imageAssets/8-1MUXCircuit.png)
-Credit: NESO Academy
 ---
+Credit: NESO Academy
 
 ## Waveform Diagram
 
